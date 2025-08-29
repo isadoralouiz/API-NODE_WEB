@@ -2,6 +2,7 @@ const sampleReceitas = [
     {
       id: 1,
       nome: "Pamonha doce com queijo",
+      porcoes: 6,
       ingredientes: [
         "5 espigas de milho",
         "200g de queijo minas",
@@ -14,6 +15,7 @@ const sampleReceitas = [
     {
       id: 2,
       nome: "Entrevero",
+      porcoes: 4,
       ingredientes: [
         "300g de carne bovina em tiras",
         "300g de carne suína em tiras",
@@ -28,6 +30,7 @@ const sampleReceitas = [
     {
       id: 3,
       nome: "Vaca Atolada",
+      porcoes: 6,
       ingredientes: [
         "1kg de costela bovina",
         "1kg de mandioca",
@@ -39,6 +42,7 @@ const sampleReceitas = [
     {
       id: 4,
       nome: "Arroz Doce com Canela",
+      porcoes: 8,
       ingredientes: [
         "1 xícara de arroz",
         "1 litro de leite",
@@ -50,6 +54,7 @@ const sampleReceitas = [
     {
       id: 5,
       nome: "Barreado",
+      porcoes: 10,
       ingredientes: [
         "1kg de carne bovina (patinho, paleta ou acém)",
         "Cebola, alho, louro, cominho",
