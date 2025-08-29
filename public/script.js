@@ -1,34 +1,33 @@
-import sampleDados from "../data/sampleDados.js";
+import sampleReceitas from "../data/sampleReceitas.js";
 
-const sd = sampleDados;
-
-//função para usar a API
-async function buscarDadosPessoais() {
-    try {
-      const response = await fetch('http://localhost:3000'); //o link da API - que está na LocalHost
-      if (!response.ok) {
-        throw new Error(`Erro: ${response.status}`);
-      }
-      const dados = await response.json(); //converte os dados da API em JSON
-      return dados; // retorna os dados pessoais
-    } catch (error) {
-      console.error('Erro ao buscar dados pessoais:', error);
-      return null;
+async function buscarReceitas() {
+  try {
+    const response = await fetch('http://localhost:3000');
+    if (!response.ok) {
+      throw new Error(`Erro: ${response.status}`);
     }
+    const dados = await response.json(); 
+    return dados;
+  } catch (error) {
+    console.error('Erro ao buscar receitas, usando dados locais:', error);
+    return sampleReceitas;
   }
+}
 
-  buscarDadosPessoais().then(dados => {
-    if (dados) {
-      const resultado = document.getElementById('resultado');
-      resultado.innerHTML = `
-        <p><strong>Nome:</strong> ${dados.nome}</p>
-        <p><strong>Idade:</strong> ${dados.idade}</p>
-        <p><strong>Profissão:</strong> ${dados.profissao}</p>
-  
-      `;
-    } else {
-      resultado.textContent = 'Erro ao carregar os dados.';
-    }
-  });
-  
-  
+document.addEventListener("DOMContentLoaded", async () => {
+  const resultado = document.getElementById('resultado');
+  const receitas = await buscarReceitas();
+
+  if (receitas && receitas.length > 0) {
+    resultado.innerHTML = receitas.map(receita => `
+      <div class="receita">
+        <h3>${receita.nome}</h3>
+        <p><strong>Porções:</strong> ${receita.porcoes}</p>
+        <p><strong>Ingredientes:</strong> ${receita.ingredientes.join(", ")}</p>
+        <p><strong>Preparo:</strong> ${receita.preparo}</p>
+      </div>
+    `).join('');
+  } else {
+    resultado.textContent = 'Nenhuma receita encontrada.';
+  }
+});
