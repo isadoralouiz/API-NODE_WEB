@@ -1,13 +1,14 @@
 import express from "express";
+import cors from "cors";
 import dataRoutes from "./routes/router.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rotas da API
 app.use('/receitas', dataRoutes);
 
 app.listen(PORT, () => {

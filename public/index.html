@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receitas do Paraná</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receitas do Paraná</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <h1>Receitas Tradicionais</h1>
-    <div id="resultado">Carregando...</div>
+  <h1>Receitas Tradicionais do Paraná</h1>
 
-    <script type="module" src="script.js"></script>
+  <h2>Criar Receita</h2>
+  <input type="text" id="nome" placeholder="Nome da Receita">
+  <input type="number" id="porcoes" placeholder="Porções">
+  <textarea id="ingredientes" placeholder="Ingredientes (separados por vírgula)"></textarea>
+  <textarea id="preparo" placeholder="Modo de Preparo"></textarea>
+  <button id="salvarButon">Criar</button>
+
+  <h2>Lista de Receitas</h2>
+  <div id="listaReceitas">Carregando...</div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
