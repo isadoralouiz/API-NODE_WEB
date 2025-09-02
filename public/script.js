@@ -1,22 +1,16 @@
 const API_URL = "http://localhost:3000/receitas";
 
 const resultado = document.getElementById("resultado");
-const salvarButon = document.getElementById("salvarButon");
+const salvarButton = document.getElementById("salvarButton");
 const receitaIdInput = document.getElementById("receitaId");
 const nomeInput = document.getElementById("nome");
 const porcoesInput = document.getElementById("porcoes");
 const ingredientesInput = document.getElementById("ingredientes");
 const preparoInput = document.getElementById("preparo");
 
-async function buscarReceitas() {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error(`Erro: ${response.status}`);
-    return await response.json();
-  } catch {
-    const fallbackResponse = await fetch("./data/sampleDados.js");
-    return await fallbackResponse.json();
-  }
+function buscarReceitas() {
+  const receitas = localStorage.getItem("receitas");
+  return receitas ? JSON.parse(receitas) : [];
 }
 
 async function listarReceitas() {
@@ -28,6 +22,7 @@ async function listarReceitas() {
         (receita) => `
       <div class="receita">
         <h3>${receita.nome}</h3>
+        <p><strong>Id:</strong> ${receita.id}</p>
         <p><strong>Porções:</strong> ${receita.porcoes}</p>
         <p><strong>Ingredientes:</strong> ${receita.ingredientes.join(", ")}</p>
         <p><strong>Preparo:</strong> ${receita.preparo}</p>
@@ -42,52 +37,60 @@ async function listarReceitas() {
   }
 }
 
-async function salvarReceita() {
+function salvarReceita() {
+  const receitas = buscarReceitas();
   const id = receitaIdInput.value;
-  const receita = {
+  const novaReceita = {
+    id: id ? parseInt(id) : receitas.length + 1,
     nome: nomeInput.value,
     porcoes: parseInt(porcoesInput.value),
-    ingredientes: ingredientesInput.value.split(",").map((i) => i.trim()),
+    ingredientes: ingredientesInput.value.split(",").map(i => i.trim()),
     preparo: preparoInput.value
   };
 
   if (id) {
-    await fetch(`${API_URL}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(receita)
-    });
+    const index = receitas.findIndex(r => r.id === parseInt(id));
+    receitas[index] = novaReceita;
   } else {
-    await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(receita)
-    });
+    receitas.push(novaReceita);
   }
 
+  localStorage.setItem("receitas", JSON.stringify(receitas));
+  listarReceitas();
   receitaIdInput.value = "";
   nomeInput.value = "";
   porcoesInput.value = "";
   ingredientesInput.value = "";
   preparoInput.value = "";
-
-  listarReceitas();
 }
 
-async function editarReceita(id) {
-  const res = await fetch(`${API_URL}/${id}`);
-  const r = await res.json();
-  receitaIdInput.value = r.id;
-  nomeInput.value = r.nome;
-  porcoesInput.value = r.porcoes;
-  ingredientesInput.value = r.ingredientes.join(", ");
-  preparoInput.value = r.preparo;
+
+function editarReceita(id) {
+  const receitas = buscarReceitas();
+  const r = receitas.find(r => r.id === id);
+
+  if (r) {
+    receitaIdInput.value = r.id;
+    nomeInput.value = r.nome;
+    porcoesInput.value = r.porcoes;
+    ingredientesInput.value = r.ingredientes.join(", ");
+    preparoInput.value = r.preparo;
+  }
 }
+
 
 async function deletarReceita(id) {
-  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+  
+    let receitas = JSON.parse(localStorage.getItem("receitas") || "[]");
+    receitas = receitas.filter(r => r.id !== id);
+    localStorage.setItem("receitas", JSON.stringify(receitas));
+  
   listarReceitas();
 }
 
-salvarButon.addEventListener("click", salvarReceita);
+
+salvarButton.addEventListener("click", salvarReceita);
 document.addEventListener("DOMContentLoaded", listarReceitas);
+window.deletarReceita = deletarReceita;
+window.editarReceita = editarReceita;
+

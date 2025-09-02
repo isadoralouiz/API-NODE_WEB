@@ -9,15 +9,16 @@
 <body>
   <h1>Receitas Tradicionais do Paraná</h1>
 
-  <h2>Criar Receita</h2>
+  <h2>Receita</h2>
   <input type="text" id="nome" placeholder="Nome da Receita">
   <input type="number" id="porcoes" placeholder="Porções">
   <textarea id="ingredientes" placeholder="Ingredientes (separados por vírgula)"></textarea>
   <textarea id="preparo" placeholder="Modo de Preparo"></textarea>
-  <button id="salvarButon">Criar</button>
+  <input type="hidden" id="receitaId">
+  <button id="salvarButton">Criar</button>
 
   <h2>Lista de Receitas</h2>
-  <div id="listaReceitas">Carregando...</div>
+  <div id="resultado">Carregando...</div>
 
   <script type="module" src="script.js"></script>
 </body>

@@ -1,16 +1,16 @@
 import express from "express";
-import cors from "cors";
 import dataRoutes from "./routes/router.js";
+import cors from "cors";
 
-const app = express();
+const servidor = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+servidor.use(cors());
+servidor.use(express.json());
+servidor.use(express.urlencoded({ extended: true }));
 
-app.use('/receitas', dataRoutes);
+servidor.use('/receitas', dataRoutes);
 
-app.listen(PORT, () => {
+servidor.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
