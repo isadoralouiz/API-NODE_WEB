@@ -41,7 +41,7 @@ function salvarReceita() {
   const receitas = buscarReceitas();
   const id = receitaIdInput.value;
   const novaReceita = {
-    id: id ? parseInt(id) : receitas.length + 1,
+    id: receitas.length + 1,
     nome: nomeInput.value,
     porcoes: parseInt(porcoesInput.value),
     ingredientes: ingredientesInput.value.split(",").map(i => i.trim()),
